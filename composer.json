@@ -3,7 +3,7 @@
   "description": "Yii2 log target for Graylog",
   "keywords": ["yii", "log", "graylog", "gelf"],
   "type": "yii2-extension",
-  "license": "MIT License",
+  "license": "BSD-3-Clause",
   "authors": [
     {
       "name": "Nikitich",
