@@ -1,0 +1,22 @@
+{
+  "name": "nikitich/yii2-graylog-target",
+  "description": "Yii2 log target for Graylog",
+  "keywords": ["yii", "log", "graylog", "gelf"],
+  "type": "yii2-extension",
+  "license": "MIT License",
+  "authors": [
+    {
+      "name": "Nikitich",
+      "email": "nickotin.zp.ua@gmail.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "*",
+    "graylog2/gelf-php": "~1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "nikitich\\graylog\\": ""
+    }
+  }
+}
