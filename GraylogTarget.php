@@ -10,6 +10,7 @@ use Gelf\Transport\UdpTransport;
 use Psr\Log\LogLevel;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use yii\helpers\VarDumper;
 use yii\log\Logger;
 use yii\log\Target;
@@ -76,10 +77,11 @@ class GraylogTarget extends Target {
             ->setHost(gethostname())
             ->setTimestamp($timestamp)
             ->setAdditional('_category', $category)
+            ->setShortMessage('yii2-message');
         ;
 
         if (count($traces) > 0) {
-            $message->setAdditional('_traces', $traces)
+            $message->setAdditional('_traces', Json::encode($traces))
                 ->setFile($traces[0]['file'])
                 ->setLine($traces[0]['line'])
             ;
@@ -89,11 +91,11 @@ class GraylogTarget extends Target {
         if (is_string($body)) {
             $message->setShortMessage($body);
         } elseif (is_array($body)) {
-            $short = ArrayHelper::remove($text, 'short');
-            $full = ArrayHelper::remove($text, 'full');
-            $add = ArrayHelper::remove($text, 'add');
+            $short = ArrayHelper::remove($body, 'short');
+            $full = ArrayHelper::remove($body, 'full');
+            $add = ArrayHelper::remove($body, 'add');
             if ($short !== null) {
-                $message->setShortMessage($short);
+                $message->setShortMessage(VarDumper::dumpAsString($short));
             }
 
             if ($full !== null) {
@@ -108,6 +110,7 @@ class GraylogTarget extends Target {
                 $add = is_numeric($add) ? ['number' => $add] : $add;
                 $add = is_array($add) ? $add : [];
                 if (is_array($add)) {
+                    $add = Json::encode($add);
                     $message->setAdditional('_data', $add);
                 }
             }
