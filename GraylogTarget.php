@@ -144,4 +144,14 @@ class GraylogTarget extends Target {
 
         return $message;
     }
+
+    private function valueToArray($value)
+    {
+        $value = is_object($value) ? (array) $value : $value;
+        $value = is_string($value) ? ['string' => $value] : $value;
+        $value = is_numeric($value) ? ['number' => $value] : $value;
+        $value = is_array($value) ? $value : [];
+
+        return $value;
+    }
 }
